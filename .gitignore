@@ -19,3 +19,6 @@ vendor/
 
 # Package binary
 purge-completed-k8s-jobs
+
+# log files
+*.txt
