@@ -24,16 +24,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build the Go binary
-        run: make build-linux BINARYNAME=$GOBINARY-${GITHUB_REF}
+        run: make build-linux BINARYNAME=$GOBINARY-${GITHUB_REF:10}
 
       - name: Create a copy of the Go binary without tags in the name
-        run: cp bin/$GOBINARY-${GITHUB_REF} bin/$GOBINARY
+        run: cp bin/$GOBINARY-${GITHUB_REF:10} bin/$GOBINARY
 
       - name: Upload the Go binary with the tag name to artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: ${{ env.GOBINARY }}-${{ github.ref }}
-          path: bin/${{ env.GOBINARY }}-${{ github.ref }}
+          name: ${{ env.GOBINARY }}-${{ github.ref[10:] }}
+          path: bin/${{ env.GOBINARY }}-${{ github.ref[10:] }}
 
       - name: Upload the Go binary without the tag name to artifacts
         uses: actions/upload-artifact@v1.0.0
