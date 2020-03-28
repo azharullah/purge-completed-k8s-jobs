@@ -7,7 +7,6 @@ on:
 
 env:
   GOBINARY: purge-completed-k8s-jobs
-  TAG: ${GITHUB_REF:10}
 
 jobs:
 
@@ -25,16 +24,16 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build the Go binary
-        run: make build-linux BINARYNAME=$GOBINARY-$TAG
+        run: make build-linux BINARYNAME=$GOBINARY-${GITHUB_REF}
 
       - name: Create a copy of the Go binary without tags in the name
-        run: cp bin/$GOBINARY-$TAG bin/$GOBINARY
+        run: cp bin/$GOBINARY-${GITHUB_REF} bin/$GOBINARY
 
       - name: Upload the Go binary with the tag name to artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: ${{ env.GOBINARY }}-{{ env.TAG }}
-          path: bin/${{ env.GOBINARY }}-{{ env.TAG }}
+          name: ${{ env.GOBINARY }}-${{ github.ref }}
+          path: bin/${{ env.GOBINARY }}-${{ github.ref }}
 
       - name: Upload the Go binary without the tag name to artifacts
         uses: actions/upload-artifact@v1.0.0
