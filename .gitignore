@@ -17,8 +17,8 @@ vendor/
 # VsCode dirs
 .vscode/
 
-# Package binary
-purge-completed-k8s-jobs
+# Package binaries
+bin/
 
 # log files
 *.txt
