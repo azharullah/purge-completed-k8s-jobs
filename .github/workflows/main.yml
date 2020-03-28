@@ -22,6 +22,10 @@ jobs:
 
       - name: Setup repo at $GITHUB_WORKSPACE
         uses: actions/checkout@v2
+      
+      - name: Get the tag
+        id: get_tag
+        run: echo ::set-output name=TAG::${GITHUB_REF/refs\/tags\//}
 
       - name: Build the Go binary
         run: make build-linux BINARYNAME=$GOBINARY-${GITHUB_REF:10}
@@ -32,8 +36,8 @@ jobs:
       - name: Upload the Go binary with the tag name to artifacts
         uses: actions/upload-artifact@v1.0.0
         with:
-          name: ${{ env.GOBINARY }}-${{ github.ref[10:] }}
-          path: bin/${{ env.GOBINARY }}-${{ github.ref[10:] }}
+          name: ${{ env.GOBINARY }}-${{ steps.get_tag.outputs.TAG }}
+          path: bin/${{ env.GOBINARY }}-${{ steps.get_tag.outputs.TAG }}
 
       - name: Upload the Go binary without the tag name to artifacts
         uses: actions/upload-artifact@v1.0.0
