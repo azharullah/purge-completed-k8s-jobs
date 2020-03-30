@@ -1,5 +1,8 @@
 # Purge-k8s-jobs-cli
 
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3813/badge)](https://bestpractices.coreinfrastructure.org/projects/3813)
+[![Go Report Card](https://goreportcard.com/badge/github.com/azharullah/purge-k8s-jobs-cli)](https://goreportcard.com/report/github.com/azharullah/purge-k8s-jobs-cli)
+
 Purge-k8s-jobs-cli is a [cobra](https://github.com/spf13/cobra) based CLI 
 wrapper over the [purgek8sjobs](https://raw.githubusercontent.com/azharullah/purgek8sjobs) 
 package.
@@ -21,8 +24,7 @@ The docker image with the tool's binary is
 #### Kubernetes deployment via helm
 A helm chart is available to enable easy deployment to k8s clusters.
 ```bash
-cd purge-k8s-jobs-cli/helm
-helm upgrade --install purge-k8s-jobs .
+helm upgrade --install purge-k8s-jobs helm
 ```
 
 #### As a standalone CLI tool

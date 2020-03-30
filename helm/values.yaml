@@ -1,0 +1,31 @@
+name: purge-k8s-jobs
+namespace: default
+
+rbac:
+  serviceAccountName: purge-k8s-jobs-sa
+  roleName: purge-k8s-jobs-role
+  roleBindingName: purge-k8s-jobs-rb
+
+cronjob:
+  name: purge-k8s-jobs
+  image:
+    repository: azharullah/purge-k8s-jobs
+    tag: v0.1.0
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 128Mi
+      cpu: 1
+    limits:
+      memory: 256Mi
+      cpu: 2
+  mountVolumes: false
+  storageClassName: ""
+  schedule: "0 * * * *"
+
+jobs:
+  beforeHours: 0
+  dumpSpec: true
+  specFile: /logs/jobs-spec.txt
+  dumpEvents: true
+  eventsFile: /logs/jobs-events.txt
