@@ -1,0 +1,14 @@
+{{ if .Values.cronjob.mountVolumes }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pvc-{{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: {{ .Values.cronjob.storageClassName }}
+  resources:
+    requests:
+      storage: 1Gi
+{{ end }}

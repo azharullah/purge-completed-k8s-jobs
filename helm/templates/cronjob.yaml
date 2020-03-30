@@ -1,0 +1,43 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: cronjob-{{ .Values.cronjob.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.name }}
+spec:
+  schedule: {{ .Values.cronjob.schedule | quote }}
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: {{ .Values.rbac.serviceAccountName }}
+          terminationGracePeriodSeconds: 0
+          restartPolicy: OnFailure
+          nodeSelector:
+            "beta.kubernetes.io/os": linux  # Since the binary is built for linux
+          containers:
+          - name: purger
+            image: {{ .Values.cronjob.image.repository }}:{{ .Values.cronjob.image.tag }}
+            imagePullPolicy: {{ .Values.cronjob.image.pullPolicy }}
+            command: ["/purge-completed-k8s-jobs"]
+            args:
+            - --namespace={{ .Values.namespace }}
+            - --before-hours={{ .Values.jobs.beforeHours }}
+{{- if .Values.jobs.dumpEvents }}
+            - --events-log-file={{ .Values.jobs.eventsFile }}
+{{- end }}
+{{- if .Values.jobs.dumpSpec }}
+            - --spec-log-file={{ .Values.jobs.specFile }}
+{{- end }}
+            resources:
+{{ toYaml .Values.cronjob.resources | indent 14 }}
+{{- if .Values.cronjob.mountVolumes }}
+            volumeMounts:
+            - mountPath: /logs
+              name: {{ .Values.name }}-volume
+          volumes:
+          - name: {{ .Values.name }}-volume
+            persistentVolumeClaim:
+              claimName: pvc-{{ .Values.name }}
+{{- end }}
