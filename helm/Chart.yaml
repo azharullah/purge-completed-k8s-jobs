@@ -2,5 +2,5 @@ apiVersion: v1
 name: purge-k8s-jobs
 version: 0.1.0
 appVersion: "1.0"
-description: Helm chart to deploy resource allocator services
-home: https://github.com/nutanix-xi/xdcs-core-resource-allocator
+description: Helm chart to deploy purge-k8s-jobs-cli
+home: https://github.com/azharullah/purge-k8s-jobs-cli/tree/master/helm
