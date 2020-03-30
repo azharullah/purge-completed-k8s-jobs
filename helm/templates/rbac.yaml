@@ -9,6 +9,9 @@ rules:
 - apiGroups: ["", "batch"]
   resources: ["jobs"]
   verbs: ["get", "list", "delete"]
+- apiGroups: [""]
+  resources: ["events"]
+  verbs: ["list"]
 
 ---
 
